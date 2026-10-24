@@ -24,7 +24,7 @@ const AppRoutes = () => {
   useEffect(() => {
     const refreshUser = async () => {
       try {
-        const res = await api.post("/auth/refresh");
+        const res = await api.post("/api/auth/refresh");
         setAccessToken(res.data.accessToken);
         setUser(res.data.user);
       } catch (error) {

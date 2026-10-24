@@ -18,7 +18,7 @@ const LoginPage = () => {
     try {
       setIsLoading(true);
       setError("");
-      const res = await api.post("/auth/login", data);
+      const res = await api.post("/api/auth/login", data);
       console.log(res);
       setUser(res.data.user);
       setAccessToken(res.data.accessToken);

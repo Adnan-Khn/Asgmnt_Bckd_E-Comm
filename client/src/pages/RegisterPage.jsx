@@ -19,7 +19,7 @@ const RegisterPage = () => {
   const onRegister = async (data) => {
     console.log(data);
     try {
-      const res = await api.post("/auth/register", data);
+      const res = await api.post("/api/auth/register", data);
       console.log(res);
       setUser(res.data.user);
       setAccessToken(res.data.accessToken);
