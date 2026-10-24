@@ -3,13 +3,20 @@ import cookieParser from "cookie-parser"
 import AuthRoutes from "../routes/auth.route.js"
 import ProductRoutes from "../routes/product.route.js"
 import cors from "cors";
+import { config } from "../config/config.js";
 
 const app = express();
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  config.CLIENT_URL,
+];
 
 app.use(express.json());
 app.use(cookieParser())
 app.use(cors({
-    origin:"https://asgmnt-bckd-e-comm.onrender.com"
+    origin:allowedOrigins,
+    credentials:true
 }))
 
 app.get("/",(req,res)=>{

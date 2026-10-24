@@ -32,7 +32,12 @@ export const registerController = async (req, res) => {
   const refreshToken = await generateRefreshToken({ userId: user._id });
 
   await userModel.findByIdAndUpdate(user._id, { refreshToken });
-  res.cookie("refreshToken", refreshToken, { httpOnly: true });
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    path: "/",
+  });
 
   res.status(201).json({
     message: "User created successfully",
@@ -68,7 +73,12 @@ export const loginController = async (req, res) => {
   const refreshToken = await generateRefreshToken({ userId: user._id });
 
   await userModel.findByIdAndUpdate(user._id, { refreshToken });
-  res.cookie("refreshToken", refreshToken, { httpOnly: true });
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    path: "/",
+  });
 
   res.status(200).json({
     message: "User logged-in successfully",
@@ -120,6 +130,9 @@ export const refreshController = async (req, res) => {
 
     res.cookie("refreshToken", newRefreshToken, {
       httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
     });
 
     return res.status(200).json({
@@ -142,17 +155,17 @@ export const refreshController = async (req, res) => {
 
 export const logoutController = async (req, res) => {
   const { userId } = req.user;
-  console.log(userId)
+  console.log(userId);
   const user = await userModel.findById(userId);
 
   res.clearCookie("refreshToken");
-  
+
   if (!user) {
     res.status(401).json({
       message: "User not found",
     });
   }
-  
+
   await userModel.findByIdAndUpdate(userId, { refreshToken: null });
 
   return res.status(200).json({
