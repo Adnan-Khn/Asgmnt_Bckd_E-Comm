@@ -1,10 +1,11 @@
+
 import { useContext } from "react";
-import { AuthContext } from "../state/AuthContext";
 import axios from "axios";
+import { AuthContext } from "../state/AuthContext.js";
 
 export const useApi = () => {
   const { accessToken, setAccessToken } = useContext(AuthContext);
-  //console.log(import.meta.env.AuthContext);
+
   const apiInstance = axios.create({
     baseURL: import.meta.env.VITE_APP_URL,
     withCredentials: true,
@@ -17,23 +18,43 @@ export const useApi = () => {
     return config;
   });
 
-  //for handling 401 error
-
   apiInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
-      if (error.response && error.response.status === 401) {
-        const res = await axios.post(
-          `S{import.meta.env.VITE_APP_URL}/auth/refresh`,
-          {},
-          { withCredentials: true },
-        );
-        setAccessToken(res.data.accessToken);
-        error.config.headers.Authorization = `Bearer ${res.data.accessToken}`;
-        return axios(error.config);
+      const originalRequest = error.config;
+
+      if (
+        error.response?.status === 401 &&
+        originalRequest &&
+        !originalRequest._retry &&
+        !originalRequest.url?.includes("/auth/refresh")
+      ) {
+        originalRequest._retry = true;
+
+        try {
+          const res = await axios.post(
+            `${import.meta.env.VITE_APP_URL}/auth/refresh`,
+            {},
+            { withCredentials: true }
+          );
+
+          const newAccessToken = res.data.accessToken;
+
+          setAccessToken(newAccessToken);
+
+          originalRequest.headers.Authorization =
+            `Bearer ${newAccessToken}`;
+
+          return apiInstance(originalRequest);
+        } catch (refreshError) {
+          setAccessToken(null);
+          return Promise.reject(refreshError);
+        }
       }
+
       return Promise.reject(error);
-    },
+    }
   );
+
   return apiInstance;
 };
