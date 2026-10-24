@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const useApi = () => {
   const { accessToken, setAccessToken } = useContext(AuthContext);
-  console.log(import.meta.env.AuthContext);
+  //console.log(import.meta.env.AuthContext);
   const apiInstance = axios.create({
     baseURL: import.meta.env.VITE_APP_URL,
     withCredentials: true,

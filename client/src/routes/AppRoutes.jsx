@@ -15,11 +15,11 @@ import AddProductPage from "../pages/AddProductPage";
 
 const AppRoutes = () => {
   const api = useApi();
-  console.log(api);
+  //console.log(api);
 
   const { user, setUser, setIsLoading, setAccessToken } =
     useContext(AuthContext);
-  console.log("User :", user);
+  //console.log("User :", user);
 
   useEffect(() => {
     const refreshUser = async () => {
@@ -78,7 +78,7 @@ const AppRoutes = () => {
               element: <ProductDetailPage />,
             },
             {
-              path: "create-product",
+              path: "add-product",
               element: <AddProductPage />,
             },
           ],
