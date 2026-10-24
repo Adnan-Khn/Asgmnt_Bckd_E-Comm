@@ -13,7 +13,7 @@ const Navbar = () => {
 
   const logoutUser = async () => {
     try {
-      await api.post("auth/logout");
+      await api.post("/api/auth/logout");
       setAccessToken(null);
       setUser(null);
       navigate("/login");
