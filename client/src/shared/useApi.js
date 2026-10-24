@@ -1,7 +1,8 @@
 
 import { useContext } from "react";
 import axios from "axios";
-import { AuthContext } from "../state/AuthContext.js";
+import { AuthContext } from "../state/AuthContext";
+
 
 export const useApi = () => {
   const { accessToken, setAccessToken } = useContext(AuthContext);
