@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
-import { useApi } from "../shared/useApi";
-import { AuthContext } from "../state/AuthContext";
-import { useNavigate } from "react-router";
+  import React, { useContext } from "react";
+  import { useApi } from "../shared/useApi";
+  import { AuthContext } from "../state/AuthContext";
+  import { useLocation, useNavigate } from "react-router";
 
-const Navbar = () => {
+  const Navbar = () => {
   const api = useApi();
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, setUser, setAccessToken } = useContext(AuthContext);
 
-  //console.log(user,accessToken)
-  const name = user.name.split(" ")[0];
+  const name = user?.name?.split(" ")[0] || "";
 
   const logoutUser = async () => {
     try {
@@ -21,15 +21,36 @@ const Navbar = () => {
       console.log(error);
     }
   };
+
+  const navLinks = [
+    {
+      label: "Home",
+      path: "/",
+      match: (p) => p === "/" || p === "/home",
+    },
+    {
+      label: "Products",
+      path: "/home/products",
+      match: (p) => p.startsWith("/home/product"),
+    },
+    {
+      label: "Add Product",
+      path: "/home/add-product",
+      match: (p) =>
+        p.startsWith("/home/add-product") || p.startsWith("/home/update-product"),
+    },
+  ];
+
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-[#e8ddd0]/80 bg-[#faf6ef]/80 backdrop-blur-xl dark:border-[#2b241d] dark:bg-[#14110e]/80">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
 
+        {/* Logo */}
         <div
           onClick={() => navigate("/")}
           className="group flex cursor-pointer items-center gap-2.5"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#c4a882] to-[#8a6d4b] text-lg shadow-md shadow-[#c4a882]/20 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3 dark:from-[#d4c4a8] dark:to-[#b8a88a] dark:shadow-[#d4c4a8]/10">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-[#c4a882] to-[#8a6d4b] text-lg shadow-md shadow-[#c4a882]/20 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3 dark:from-[#d4c4a8] dark:to-[#b8a88a] dark:shadow-[#d4c4a8]/10">
             🛍️
           </div>
           <h1 className="text-xl font-extrabold tracking-tight text-[#2a241d] dark:text-[#f5efe6]">
@@ -39,12 +60,8 @@ const Navbar = () => {
 
         {/* Middle Nav Links */}
         <div className="hidden items-center gap-1 md:flex">
-          {[
-            { label: "Home", path: "/" },
-            { label: "Products", path: "/home/products" },
-            { label: "Add Product", path: "/home/add-product" },
-          ].map((link) => {
-            const isActive = location.pathname === link.path;
+          {navLinks.map((link) => {
+            const isActive = link.match(location.pathname);
             return (
               <a
                 key={link.path}
@@ -56,9 +73,9 @@ const Navbar = () => {
                 }`}
               >
                 {link.label}
-                
+
                 <span
-                  className={`absolute bottom-1 left-4 right-4 h-0.5 origin-left rounded-full bg-gradient-to-r from-[#c4a882] to-[#8a6d4b] transition-transform duration-300 dark:from-[#d4c4a8] dark:to-[#b8a88a] ${
+                  className={`absolute bottom-1 left-4 right-4 h-0.5 origin-left rounded-full bg-linear-to-r from-[#c4a882] to-[#8a6d4b] transition-transform duration-300 dark:from-[#d4c4a8] dark:to-[#b8a88a] ${
                     isActive
                       ? "scale-x-100"
                       : "scale-x-0 group-hover:scale-x-100"
@@ -112,3 +129,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

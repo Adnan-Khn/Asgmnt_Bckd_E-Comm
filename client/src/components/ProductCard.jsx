@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useApi } from "../shared/useApi";
+import { useNavigate } from "react-router";
 
 const ProductCard = ({ product, getAllProds }) => {
   const [currentImage, setCurrentImage] = useState(0);
   const api = useApi();
+  const navigate = useNavigate()
   // API returns images as objects with { url, fileId, _id }
   const images =
     product.images?.length > 0
@@ -36,7 +38,20 @@ const ProductCard = ({ product, getAllProds }) => {
       alert(error.response?.data?.message || "Failed to delete product");
     }
   };
-  
+
+  const handleUpdate =(id)=>{
+    console.log(id)
+    navigate("/home/add-product",{
+        state:{
+            product,
+            isUpdate:true
+        }
+    })
+  }
+
+  const viewProd = (id)=>{
+    navigate(`/home/products/${id}`)
+  }
   return (
     <div className="group relative w-full overflow-hidden rounded-2xl border border-[#e8ddd0] bg-white/70 shadow-sm backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-[#c4a882]/60 hover:shadow-xl hover:shadow-[#c4a882]/10 dark:border-[#2b241d] dark:bg-[#1a1613]/70 dark:hover:border-[#d4c4a8]/40 dark:hover:shadow-black/30">
       {/* Image Section */}
@@ -66,7 +81,7 @@ const ProductCard = ({ product, getAllProds }) => {
 
         {/* Eye icon — view product */}
         <button
-          onClick={() => navigate(`/home/product/${product._id}`)}
+          onClick={() => viewProd(product._id)}
           className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-[#2a241d]/60 text-[#f5efe6] backdrop-blur-md transition-all duration-300 hover:bg-[#c4a882] hover:text-[#14110e] dark:bg-[#14110e]/60 dark:hover:bg-[#d4c4a8]"
           aria-label="View product"
         >
@@ -197,7 +212,7 @@ const ProductCard = ({ product, getAllProds }) => {
           <div className="flex items-center gap-2">
             {/* Update button */}
             <button
-              onClick={() => navigate(`/home/update-product/${product._id}`)}
+              onClick={()=>handleUpdate(product._id)}
               className="group/btn flex h-9 w-9 items-center justify-center rounded-lg border border-[#e0d6c8] bg-white/60 text-[#8a6d4b] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#c4a882] hover:bg-[#c4a882] hover:text-[#14110e] hover:shadow-md hover:shadow-[#c4a882]/25 dark:border-[#2b241d] dark:bg-[#221c17]/60 dark:text-[#d4c4a8] dark:hover:border-[#d4c4a8] dark:hover:bg-[#d4c4a8] dark:hover:text-[#14110e]"
               aria-label="Update product"
             >

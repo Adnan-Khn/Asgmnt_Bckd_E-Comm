@@ -9,8 +9,8 @@ const HomePage = () => {
 
     {/* Decorative background blobs */}
     <div className="pointer-events-none fixed inset-0 overflow-hidden">
-      <div className="absolute -top-40 -right-40 h-[500px] w-[500px] rounded-full bg-[#d4c4a8]/30 dark:bg-[#d4c4a8]/5 blur-3xl" />
-      <div className="absolute top-1/2 -left-40 h-[400px] w-[400px] rounded-full bg-[#c4a882]/20 dark:bg-[#8a6d4b]/5 blur-3xl" />
+      <div className="absolute -top-40 -right-40 h-125 w-125 rounded-full bg-[#d4c4a8]/30 dark:bg-[#d4c4a8]/5 blur-3xl" />
+      <div className="absolute top-1/2 -left-40 h-100 w-100 rounded-full bg-[#c4a882]/20 dark:bg-[#8a6d4b]/5 blur-3xl" />
     </div>
 
     {/* Hero Section */}
@@ -30,7 +30,7 @@ const HomePage = () => {
           Manage Your Products
           <br />
           <span className="relative inline-block">
-            <span className="bg-gradient-to-r from-[#c4a882] via-[#8a6d4b] to-[#c4a882] bg-clip-text text-transparent dark:from-[#d4c4a8] dark:via-[#e0d2b8] dark:to-[#d4c4a8]">
+            <span className="bg-linear-to-r from-[#c4a882] via-[#8a6d4b] to-[#c4a882] bg-clip-text text-transparent dark:from-[#d4c4a8] dark:via-[#e0d2b8] dark:to-[#d4c4a8]">
               Simple. Secure. Efficient.
             </span>
             <svg
@@ -137,7 +137,7 @@ const HomePage = () => {
               </p>
 
               {/* Animated bottom line */}
-              <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-[#c4a882] to-[#8a6d4b] transition-all duration-500 group-hover:w-full dark:from-[#d4c4a8] dark:to-[#b8a88a]" />
+              <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-linear-to-r from-[#c4a882] to-[#8a6d4b] transition-all duration-500 group-hover:w-full dark:from-[#d4c4a8] dark:to-[#b8a88a]" />
             </div>
           ))}
 
