@@ -3,7 +3,7 @@ import { config } from "../config/config.js";
 
 
 export const generateAccessToken = async ({userId}) => {
-  const accessToken = await jwt.sign({ userId }, config.ACCESS_TOKEN_SECRET,{expiresIn:"1d"});
+  const accessToken = await jwt.sign({ userId }, config.ACCESS_TOKEN_SECRET,{expiresIn:"15m"});
   return accessToken;
 };
 
