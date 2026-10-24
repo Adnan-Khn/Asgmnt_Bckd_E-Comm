@@ -9,7 +9,7 @@ export default defineConfig({
     proxy:{
       "/api":{
         target:"https://asgmnt-bckd-e-comm.onrender.com/",
-        changeOrigin:true
+        changeOrigin:true,secure:true
       }
     }
   }
